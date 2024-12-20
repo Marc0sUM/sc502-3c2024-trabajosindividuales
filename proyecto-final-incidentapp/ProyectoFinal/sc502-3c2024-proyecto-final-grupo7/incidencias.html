@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incidencias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="bg-dark text-white py-3 mb-4 border-bottom">
+        <div class="container d-flex flex-column flex-lg-row justify-content-between  ">
+            <div class="d-flex align-items-center mb-3 mb-lg-0">
+                <h1 class="h4 mb-0">Incidents<span class="text-danger">App</span></h1>
+            </div>
+
+            <div class="w-100 d-flex  justify-content-end" id="nav-container">
+                <!-- Nav del header -->
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <!-- Botón de menú hamburguesa en pantallas pequeñas -->
+                    <button class="navbar-toggler d-block d-lg-none" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Barra de navegación colapsable -->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <button class="btn btn-danger ms-3" onclick="window.location.href='index.html'">Log
+                            out</button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Body -->
+    <div class="container my-4">
+        <h1 class="text-left mb-4 text-uppercase fw-bold">Incidents</h1>
+
+        <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-info d-flex align-items-center gap-2 fw-bold" data-bs-toggle="modal"
+                data-bs-target="#incidentModal">
+                <i class="bi bi-plus-circle"></i>
+                Create Incident
+            </button>
+        </div>
+
+        <div class="container w-100">
+            <div class="row">
+                <!--Parte del filtro de busqueda y la información-->
+                <div class="col mb-4 ">
+                    <div class="row">
+                        <aside class="aside p-3 mb-4 shadow-sm">
+                            <h4>Search Incident</h4>
+                            <div class="mb-3">
+                                <button class="btn btn-primary" data-bs-toggle="#"
+                                    data-bs-target="#incidentModal" id="search-all">All</button>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Status</h5>
+                                <select id="status-search">
+                                    <option value="Open">Open</option>
+                                    <option value="Close">Close</option>
+                                    <option value="Resolved">Resolved</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="search-date" class="form-label">
+                                    <h5>Date</h5>
+                                </label>
+                                <input type="date" class="form-control" id="search-date">
+                            </div>
+                        </aside>
+                    </div>
+                    <!--Aqui se muestran los watchers y los responders-->
+                    <div class="col mb-4 ">
+                        <h4 class="mb-3 text-decoration-underline">Incident Info</h4>
+                        <div class="row shadow-sm custom-shadow" id="info-list">
+                            <div class="col mb-4">
+                                <!-- Mostrar aqui las incidentes info -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5 ">
+                    <div class="row" id="incident-list">
+                        <div class="col-12 col-md-6 col-lg-4 mb-4">
+                            <!-- Mostrar aqui las incidentes -->
+                        </div>
+                    </div>
+                </div>
+
+                <!--Aqui va el timeline-->
+                <div class="col border-start p-3 shadow-sm mb-4" id="timeline">
+                    <h4 class="mb-3 text-decoration-underline">Timeline</h4>
+                    <div class=" timeline-container" id="timeline-container" style="overflow-y: auto; height: 500px;">
+                        <!-- Aqui se cargaran los eventos de la incidencia -->
+                    </div>
+                </div>
+
+            </div>
+            <!---- Modal -->
+            <div class="modal fade" id="incidentModal" tabindex="-1" aria-labelledby="incidentModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="incidentModalLabel">Add Incident</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="incident-form">
+                                <input type="hidden" id="incidence-id">
+                                <div class="mb-3">
+                                    <label for="definition" class="form-label">Incident Name</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="priority" class="form-label">Priority</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle w-100" type="button"
+                                            id="priorityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Priority
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="priorityDropdown">
+                                            <!-- Aquí las prioridades se cargarán dinámicamente -->
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="summary" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                                    <button type="button" class="btn btn-outline-secondary px-4"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--- Modal Para Watchers -->
+            <div class="modal fade" id="watcherModal" tabindex="-1" aria-labelledby="watcherModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="watcherModalLabel">Add Watcher</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="watcher-form">
+                                <input type="hidden" id="watcher-id">
+                                <div class="row">
+                                    <div class="mb-3 col">
+                                        <div class="dropdown position-relative">
+                                            <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                                id="dropdownWatcherButton" data-bs-toggle="dropdown"
+                                                aria-expanded="false">Select Watcher
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-status position-absolute"
+                                                style="z-index: 1050;" aria-labelledby="dropdownWatcherButton">
+                                                <!-- Aqui se cargarán dinamicamente -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col">
+                                        <div class="dropdown position-relative">
+                                            <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                                id="dropdownWatcherButton" data-bs-toggle="dropdown"
+                                                aria-expanded="false">Select a Role
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-status position-absolute"
+                                                style="z-index: 1050;" aria-labelledby="dropdownWatcherButton">
+                                                <!-- Itera sobre el arreglo de status y crea las opciones -->
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary px-4">Save</button>
+                            <button type="button" class="btn btn-outline-secondary px-4"
+                                data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--- Modal Para Responders -->
+        <div class="modal fade" id="responderModal" tabindex="-1" aria-labelledby="responderModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="responderModalLabel">Add Responder</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="responder-form">
+                            <input type="hidden" id="responder-id">
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <div class="dropdown position-relative">
+                                        <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                            id="dropdownResponderButton" data-bs-toggle="dropdown"
+                                            aria-expanded="false">Select Responder
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-status position-absolute"
+                                            style="z-index: 1050;" aria-labelledby="dropdownResponderButton">
+                                            <!-- Aqui se cargarán dinamicamente -->
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3 col">
+                                    <div class="dropdown position-relative">
+                                        <button class="btn btn-info btn-sm dropdown-toggle" type="button"
+                                            id="dropdownResponderButton" data-bs-toggle="dropdown"
+                                            aria-expanded="false">Select a Role
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-status position-absolute"
+                                            style="z-index: 1050;" aria-labelledby="dropdownrButton">
+                                            <!-- Itera sobre el arreglo de status y crea las opciones -->
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary px-4">Save</button>
+                        <button type="button" class="btn btn-outline-secondary px-4"
+                            data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="javaScript/incidencias.js"></script>
+</body>
+
+</html>
